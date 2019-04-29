@@ -1,18 +1,21 @@
+package game;
+
 import enigma.core.Enigma;
 import enigma.event.TextMouseEvent;
 import enigma.event.TextMouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
-
 import enigma.console.TextAttributes;
 import java.awt.Color;
 
 public class Game {
    public enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard");
+   public TextMouseListener tmlis; 
    public KeyListener klis; 
 
    // ------ Standard variables for mouse and keyboard ------
+   public int mousepr;          // mouse pressed?
+   public int mousex, mousey;   // mouse text coords.
    public int keypr;   // key pressed?
    public int rkey;    // key   (for press/release)
    // ----------------------------------------------------
@@ -21,6 +24,18 @@ public class Game {
    Game() throws Exception {   // --- Contructor
                  
       // ------ Standard code for mouse and keyboard ------ Do not change
+      tmlis=new TextMouseListener() {
+         public void mouseClicked(TextMouseEvent arg0) {}
+         public void mousePressed(TextMouseEvent arg0) {
+            if(mousepr==0) {
+               mousepr=1;
+               mousex=arg0.getX();
+               mousey=arg0.getY();
+            }
+         }
+         public void mouseReleased(TextMouseEvent arg0) {}
+      };
+      cn.getTextWindow().addTextMouseListener(tmlis);
     
       klis=new KeyListener() {
          public void keyTyped(KeyEvent e) {}
@@ -34,49 +49,17 @@ public class Game {
       };
       cn.getTextWindow().addKeyListener(klis);
       // ----------------------------------------------------
-      //////////////////////////////
-      int px=1,py=1;
-      for (int i = 0; i < 60; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  px++;
-    	  }
-      String score ="SCORE:";
-      for (int i = 0; i < score.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py,score.charAt(i));
-    	  }
-      for (int i = 0; i < 10; i++) {
-    	  cn.getTextWindow().output(px+4+i,py+1,'-');
-    	  }
-      for (int i = 0; i < 25; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  py++;
-    	  }
-      String level ="Level:";
-      for (int i = 0; i < level.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py-2,level.charAt(i));
-    	  }
-      String time ="Time:";
-      for (int i = 0; i < time.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py-1,time.charAt(i));
-    	  }
-      for (int i = 0; i < 60; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  px--;
-    	  }
-      for (int i = 0; i < 25; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  py--;
-    	  }
-      //////////////////////////////////
-      //random #
-      Random rnd=new Random();
-      px = rnd.nextInt(59)+2;
-      py =rnd.nextInt(24)+2;
+      
+
+      int px=0,py=0;
       cn.getTextWindow().output(px,py,'#');
-      
-      
-      
       while(true) {
+         if(mousepr==1) {  // if mouse button pressed
+            cn.getTextWindow().output(mousex,mousey,'#');  // write a char to x,y position without changing cursor position
+            px=mousex; py=mousey;
+            
+            mousepr=0;     // last action  
+         }
          if(keypr==1) {    // if keyboard button pressed
             if(rkey==KeyEvent.VK_LEFT) px--;   
             if(rkey==KeyEvent.VK_RIGHT) px++;
@@ -85,7 +68,7 @@ public class Game {
             
             char rckey=(char)rkey;
             //        left          right          up            down
-            if(rckey=='%' || rckey=='\'' || rckey=='&' || rckey=='(') cn.getTextWindow().output(px,py,'P'); // VK kullanmadan test teknigi
+            if(rckey=='%' || rckey=='\'' || rckey=='&' || rckey=='(') cn.getTextWindow().output(px,py,'#'); // VK kullanmadan test teknigi
             else cn.getTextWindow().output(rckey);
             
             if(rkey==KeyEvent.VK_SPACE) {
