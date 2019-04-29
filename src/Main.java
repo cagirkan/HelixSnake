@@ -9,6 +9,7 @@ public class Main {
 		Screen screen = new Screen(25,60); // x koordnatý ile y koordinatý yer deðiþtirdi.
 		screen.create();
 		screen.print();
+		System.out.println("deneme");
 	}
 	//random-input-menu methods
 	
