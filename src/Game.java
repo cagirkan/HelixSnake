@@ -35,7 +35,7 @@ public class Game {
          }
          public void keyReleased(KeyEvent e) {}
       };
-      
+      System.out.println();
       cn.getTextWindow().addKeyListener(klis);
       board.print();
       //random #
