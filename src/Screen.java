@@ -1,5 +1,6 @@
 
 public class Screen {
+
 	private int x;
 	private int y;
 	private Object[][] screenArr;
@@ -55,7 +56,4 @@ public class Screen {
 	public void setScreenArr(Object[][] screenArr) {
 		this.screenArr = screenArr;
 	}
-	
-	
-	
 }
