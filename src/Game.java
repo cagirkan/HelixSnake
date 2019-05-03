@@ -37,14 +37,6 @@ public class Game {
       };
       
       cn.getTextWindow().addKeyListener(klis);
-      for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				if (i == 0 || i == x-1 || j == 0 || j == y-1) 
-					System.out.println("#");
-				else
-					screenArr[i][j] = ' ';
-			}
-		}
       board.print();
       //random #
       /*Random rnd=new Random();

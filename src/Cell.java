@@ -12,6 +12,7 @@ public class Cell {
 	        this.type = type;
 	        if(type == CELL_TYPE_EMPTY) this.data = ' ';
 	        else if (type == CELL_TYPE_FOOD) this.data = '.';
-	        else this.data = '-';
+	        else if(type == CELL_TYPE_SNAKE_NODE) this.data = '-';
+	        else this.data = '#';
 	    }
 }
