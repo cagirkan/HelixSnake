@@ -1,16 +1,20 @@
 import enigma.core.Enigma;
-import enigma.event.TextMouseEvent;
 import enigma.event.TextMouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
-import enigma.console.TextAttributes;
-import java.awt.Color;
+
 
 public class Game {
    public enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard");
+   public TextMouseListener tmlis; 
    public KeyListener klis; 
+   public Cell initPos = new Cell(12,30,20);
+   public Snake snake = new Snake(initPos);
+   public Board board = new Board(25,60);
+   public Router rt = new Router(snake, board);
+   
 
    // ------ Standard variables for mouse and keyboard ------
    public int keypr;   // key pressed?
@@ -21,7 +25,6 @@ public class Game {
    Game() throws Exception {   // --- Contructor
                  
       // ------ Standard code for mouse and keyboard ------ Do not change
-    
       klis=new KeyListener() {
          public void keyTyped(KeyEvent e) {}
          public void keyPressed(KeyEvent e) {
@@ -32,61 +35,31 @@ public class Game {
          }
          public void keyReleased(KeyEvent e) {}
       };
+      
       cn.getTextWindow().addKeyListener(klis);
-      // ----------------------------------------------------
-      //////////////////////////////
-      int px=1,py=1;
-      for (int i = 0; i < 60; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  px++;
-    	  }
-      String score ="SCORE:";
-      for (int i = 0; i < score.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py,score.charAt(i));
-    	  }
-      for (int i = 0; i < 10; i++) {
-    	  cn.getTextWindow().output(px+4+i,py+1,'-');
-    	  }
-      for (int i = 0; i < 25; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  py++;
-    	  }
-      String level ="Level:";
-      for (int i = 0; i < level.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py-2,level.charAt(i));
-    	  }
-      String time ="Time:";
-      for (int i = 0; i < time.length(); i++) {
-    	  cn.getTextWindow().output(px+4+i,py-1,time.charAt(i));
-    	  }
-      for (int i = 0; i < 60; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  px--;
-    	  }
-      for (int i = 0; i < 25; i++) {
-    	  cn.getTextWindow().output(px,py,'#');
-    	  py--;
-    	  }
-      //////////////////////////////////
+      for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				if (i == 0 || i == x-1 || j == 0 || j == y-1) 
+					System.out.println("#");
+				else
+					screenArr[i][j] = ' ';
+			}
+		}
+      board.print();
       //random #
-      Random rnd=new Random();
+      /*Random rnd=new Random();
       px = rnd.nextInt(59)+2;
       py =rnd.nextInt(24)+2;
-      cn.getTextWindow().output(px,py,'#');
+      cn.getTextWindow().output(px,py,'#');*/
       
       
       
       while(true) {
          if(keypr==1) {    // if keyboard button pressed
-            if(rkey==KeyEvent.VK_LEFT) px--;   
-            if(rkey==KeyEvent.VK_RIGHT) px++;
-            if(rkey==KeyEvent.VK_UP) py--;
-            if(rkey==KeyEvent.VK_DOWN) py++;
-            
-            char rckey=(char)rkey;
-            //        left          right          up            down
-            if(rckey=='%' || rckey=='\'' || rckey=='&' || rckey=='(') cn.getTextWindow().output(px,py,'P'); // VK kullanmadan test teknigi
-            else cn.getTextWindow().output(rckey);
+            if(rkey==KeyEvent.VK_LEFT) rt.setDirection(-1);   
+            if(rkey==KeyEvent.VK_RIGHT) rt.setDirection(1);
+            if(rkey==KeyEvent.VK_UP) rt.setDirection(2);
+            if(rkey==KeyEvent.VK_DOWN) rt.setDirection(-2);
             
             if(rkey==KeyEvent.VK_SPACE) {
                String str;         
