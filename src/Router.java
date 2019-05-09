@@ -17,10 +17,13 @@ public class Router {
     }
 
     public void print() {
+    	int type;
 		for (int i = 0; i < board.ROW_COUNT; i++) {
 			for (int j = 0; j < board.COL_COUNT; j++) {
-				if(snake.snakePartList.searchSnake(i, j))
-					board.cells[i][j].changeType(Cell.CELL_TYPE_SNAKE_NODE);
+				type = snake.snakePartList.searchSnake(i, j);
+				if(type != -1) {
+					board.cells[i][j].changeType(21);
+				}
 				System.out.print(board.cells[i][j].data);
 			}
 			System.out.println();
@@ -37,7 +40,10 @@ public class Router {
                     gameOver = true;
                 } else {
                     snake.move(nextCell);
-                    if (nextCell.type == Cell.CELL_TYPE_FOOD) {
+                    if (nextCell.type == Cell.CELL_TYPE_FOOD_A ||
+                    	nextCell.type == Cell.CELL_TYPE_FOOD_C ||
+                    	nextCell.type == Cell.CELL_TYPE_FOOD_T ||
+                    	nextCell.type == Cell.CELL_TYPE_FOOD_G ) {
                         snake.grow();
                         board.generateFood();
                     }
