@@ -2,33 +2,33 @@ import java.util.LinkedList;
 
 public class Snake {
 
-	LinkedList<Cell> snakePartList = new LinkedList<>();
+	SingleLinkedList snakePartList = new SingleLinkedList();
     Cell head;
+    Board board;
 
-    public Snake(Cell initPos) {
+    public Snake(Cell initPos, Board board) {
+    	int row = initPos.row;
+    	int col = initPos.col;
+    	this.board = board;
         head = initPos;
-        snakePartList.add(head);
+        snakePartList.insert(head);
+        board.cells[row][col] = head;
     }
 
     public void grow() {
-        snakePartList.add(head);
+        snakePartList.insert(head);
     }
 
     public void move(Cell nextCell) {
-        Cell tail = snakePartList.removeLast();
-        tail.type = Cell.CELL_TYPE_EMPTY;
+    	snakePartList.searchAt(snakePartList.size()).changeType(Cell.CELL_TYPE_EMPTY);
+    	snakePartList.deleteAt(snakePartList.size()-1);
 
         head = nextCell;
-        snakePartList.addFirst(head);
+        snakePartList.insertAtStart(head);
     }
 
-    public boolean checkCrash(Cell nextCell) {
-        for (Cell cell : snakePartList) {
-            if (cell == nextCell) {
-                return true;
-            }
-        }
-
+     public boolean checkCrash(Cell nextCell) {
+        if(nextCell.type == Cell.CELL_TYPE_SNAKE_NODE || nextCell.type == Cell.CELL_TYPE_SNAKE_WALL) return true;
         return false;
-    }
+    } 
 }
