@@ -28,7 +28,11 @@ public class Snake {
     }
 
      public boolean checkCrash(Cell nextCell) {
-        if(nextCell.type == Cell.CELL_TYPE_SNAKE_NODE || nextCell.type == Cell.CELL_TYPE_SNAKE_WALL) return true;
+        if(nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_A ||
+        	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_G ||
+        	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_T ||
+        	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_C ||
+        	nextCell.type == Cell.CELL_TYPE_SNAKE_WALL) return true;
         return false;
     } 
 }

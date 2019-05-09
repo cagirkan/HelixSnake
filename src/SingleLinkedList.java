@@ -158,22 +158,21 @@ public class SingleLinkedList
 		}
 	}
 	
-	public boolean searchSnake (int row, int col)
+	public int searchSnake (int row, int col)
 	{
 		Node node = head;
 		while (node != null)
 		{
 			if (node.data.col == col && node.data.row == row)
 			{
-				return true;
-				
+				return node.data.type;
 			}
 			else
 			{
 				node = node.next;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 }

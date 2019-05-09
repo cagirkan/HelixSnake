@@ -11,7 +11,7 @@ public class Game {
    public TextMouseListener tmlis; 
    public KeyListener klis; 
    public Board board = new Board(25,60);
-   public Cell initPos = new Cell(12,30,20);
+   public Cell initPos = new Cell(2,2,21);
    public Snake snake = new Snake(initPos, board);
    public Router rt = new Router(snake, board);
    public Cell nextCell;
@@ -38,6 +38,8 @@ public class Game {
       };
       
       cn.getTextWindow().addKeyListener(klis);
+      board.generateFood();
+      board.generateFood();
       board.generateFood();
       rt.print();
       //random #
@@ -76,7 +78,7 @@ public class Game {
          //snake.move(nextCell);
          rt.update();
          rt.print();
-         Thread.sleep(500);
+         Thread.sleep(100);
          
       }
    }

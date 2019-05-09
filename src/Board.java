@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Board {
 
@@ -20,9 +21,15 @@ public class Board {
     }
 
     public void generateFood() {
-        int row = (int) (Math.random() * (ROW_COUNT-1)+1);
-        int column = (int) (Math.random() * (COL_COUNT-1) +1);
-
-        cells[row][column].changeType(Cell.CELL_TYPE_FOOD);
+    	Random rnd = new Random();
+    	int row, col; 
+    	while (true) {
+    		row = (int) (Math.random() * (ROW_COUNT-1))+1;
+            col = (int) (Math.random() * (COL_COUNT-1))+1;
+            if(cells[row][col].type == 0) {
+            	cells[row][col].changeType(rnd.nextInt(3)+11);
+            	break;
+            }
+		}
     }
 }
