@@ -10,10 +10,11 @@ public class Game {
    public enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard");
    public TextMouseListener tmlis; 
    public KeyListener klis; 
-   public Cell initPos = new Cell(12,30,20);
-   public Snake snake = new Snake(initPos);
    public Board board = new Board(25,60);
+   public Cell initPos = new Cell(12,30,20);
+   public Snake snake = new Snake(initPos, board);
    public Router rt = new Router(snake, board);
+   public Cell nextCell;
    
 
    // ------ Standard variables for mouse and keyboard ------
@@ -37,7 +38,8 @@ public class Game {
       };
       
       cn.getTextWindow().addKeyListener(klis);
-      board.print();
+      board.generateFood();
+      rt.print();
       //random #
       /*Random rnd=new Random();
       px = rnd.nextInt(59)+2;
@@ -45,13 +47,21 @@ public class Game {
       cn.getTextWindow().output(px,py,'#');*/
       
       
-      
+      rt.setDirection(1);
       while(true) {
          if(keypr==1) {    // if keyboard button pressed
-            if(rkey==KeyEvent.VK_LEFT) rt.setDirection(-1);   
-            if(rkey==KeyEvent.VK_RIGHT) rt.setDirection(1);
-            if(rkey==KeyEvent.VK_UP) rt.setDirection(2);
-            if(rkey==KeyEvent.VK_DOWN) rt.setDirection(-2);
+            if(rkey==KeyEvent.VK_LEFT) {
+            	rt.setDirection(-1); 
+            }
+            if(rkey==KeyEvent.VK_RIGHT) {
+            	rt.setDirection(1);
+            }
+            if(rkey==KeyEvent.VK_UP) {
+            	rt.setDirection(2);
+            }
+            if(rkey==KeyEvent.VK_DOWN) {
+            	rt.setDirection(-2);
+            }
             
             if(rkey==KeyEvent.VK_SPACE) {
                String str;         
@@ -60,9 +70,14 @@ public class Game {
                cn.getTextWindow().output(str);
             }
             
+            
             keypr=0;    // last action  
          }
-         Thread.sleep(20);
+         //snake.move(nextCell);
+         rt.update();
+         rt.print();
+         Thread.sleep(500);
+         
       }
    }
 }

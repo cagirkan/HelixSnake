@@ -16,6 +16,17 @@ public class Router {
         this.direction = direction;
     }
 
+    public void print() {
+		for (int i = 0; i < board.ROW_COUNT; i++) {
+			for (int j = 0; j < board.COL_COUNT; j++) {
+				if(snake.snakePartList.searchSnake(i, j))
+					board.cells[i][j].changeType(Cell.CELL_TYPE_SNAKE_NODE);
+				System.out.print(board.cells[i][j].data);
+			}
+			System.out.println();
+		}
+	}
+    
     public void update() {
         if (!gameOver) {
             if (direction != DIRECTION_NONE) {

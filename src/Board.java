@@ -14,23 +14,15 @@ public class Board {
             	if (row == 0 || row == ROW_COUNT-1 || column == 0 || column == COL_COUNT-1)
             		cells[row][column] = new Cell(row,column,30);
             	else
-            		cells[row][column] = new Cell(row, column,10);
+            		cells[row][column] = new Cell(row, column,0);
             }
         }
     }
 
-    public void print() {
-		for (int i = 0; i < ROW_COUNT; i++) {
-			for (int j = 0; j < COL_COUNT; j++) {
-				System.out.print(cells[i][j].data);
-			}
-			System.out.println();
-		}
-	}
     public void generateFood() {
-        int row = (int) (Math.random() * ROW_COUNT);
-        int column = (int) (Math.random() * COL_COUNT);
+        int row = (int) (Math.random() * (ROW_COUNT-1)+1);
+        int column = (int) (Math.random() * (COL_COUNT-1) +1);
 
-        cells[row][column].type = Cell.CELL_TYPE_FOOD;
+        cells[row][column].changeType(Cell.CELL_TYPE_FOOD);
     }
 }

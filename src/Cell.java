@@ -10,7 +10,17 @@ public class Cell {
 	        this.row = row;
 	        this.col = col;
 	        this.type = type;
-	        if(type == CELL_TYPE_EMPTY) this.data = ' ';
+	        changeData();
+	    }
+	    
+	    public void changeType(int type) {
+	    	this.type = type;
+	    	changeData();
+	    	
+	    }
+	    
+	    private void changeData() {
+	    	if(type == CELL_TYPE_EMPTY) this.data = ' ';
 	        else if (type == CELL_TYPE_FOOD) this.data = '.';
 	        else if(type == CELL_TYPE_SNAKE_NODE) this.data = '-';
 	        else this.data = '#';
