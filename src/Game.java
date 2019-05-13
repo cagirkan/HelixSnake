@@ -7,13 +7,17 @@ import java.util.Random;
 
 
 public class Game {
-   public enigma.console.Console cn = Enigma.getConsole("Mouse and Keyboard");
-   public TextMouseListener tmlis; 
+   public enigma.console.Console cn = Enigma.getConsole("Helix Snake");
    public KeyListener klis; 
+   public HighScore hs = new HighScore();
+   public Score score = new Score();
+   DoubleLinkedList highscore;
+   
+   
    public Board board = new Board(25,60);
-   public Cell initPos = new Cell(2,2,21);
+   public Cell initPos = new Cell();
    public Snake snake = new Snake(initPos, board);
-   public Router rt = new Router(snake, board);
+   public Router rt = new Router(snake, board, score);
    public Cell nextCell;
    
 
@@ -22,7 +26,7 @@ public class Game {
    public int rkey;    // key   (for press/release)
    // ----------------------------------------------------
    
-   
+   int time = 0, level = 0;
    Game() throws Exception {   // --- Contructor
                  
       // ------ Standard code for mouse and keyboard ------ Do not change
@@ -41,15 +45,10 @@ public class Game {
       board.generateFood();
       board.generateFood();
       board.generateFood();
+      
       rt.print();
-      //random #
-      /*Random rnd=new Random();
-      px = rnd.nextInt(59)+2;
-      py =rnd.nextInt(24)+2;
-      cn.getTextWindow().output(px,py,'#');*/
-      
-      
       rt.setDirection(1);
+      
       while(true) {
          if(keypr==1) {    // if keyboard button pressed
             if(rkey==KeyEvent.VK_LEFT) {
@@ -65,21 +64,28 @@ public class Game {
             	rt.setDirection(-2);
             }
             
-            if(rkey==KeyEvent.VK_SPACE) {
-               String str;         
-               str=cn.readLine();     // keyboardlistener running and readline input by using enter 
-               cn.getTextWindow().setCursorPosition(5, 20);
-               cn.getTextWindow().output(str);
-            }
-            
-            
             keypr=0;    // last action  
          }
          //snake.move(nextCell);
          rt.update();
          rt.print();
-         Thread.sleep(100);
-         
+         Thread.sleep(300);
+         time += 300;
+         if (time >= 5000) {
+        	 board.generateWall();
+        	 time = 0;
+        	 level++;
+         }
+         if(rt.gameOver) {
+        	 System.out.println("GAME OVER");
+        	 System.out.println("Score= " + score.getScore());
+        	 System.out.println("Level= " + level);
+        	 break;
+         }
       }
+      highscore = hs.readfile();
+      highscore.display1();
+     
+      
    }
 }
