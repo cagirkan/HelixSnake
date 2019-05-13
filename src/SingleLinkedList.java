@@ -175,4 +175,20 @@ public class SingleLinkedList
 		return -1;
 	}
 	
+	public void shift (SingleLinkedList sll, int type)
+	{
+		Node node = head.next;
+		while (node != null)
+		{
+			if(node.next != null) {
+				node.data.changeType(node.next.data.type);	
+			}
+			else {
+				node.data.changeType(type);	
+			}
+			node = node.next;
+		}
+	
+	}
+	
 }

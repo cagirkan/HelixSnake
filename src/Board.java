@@ -32,4 +32,16 @@ public class Board {
             }
 		}
     }
+    
+    public void generateWall() {
+    	int row, col; 
+    	while (true) {
+    		row = (int) (Math.random() * (ROW_COUNT-1))+1;
+            col = (int) (Math.random() * (COL_COUNT-1))+1;
+            if(cells[row][col].type == 0) {
+            	cells[row][col].changeType(30);
+            	break;
+            }
+		}
+    }
 }
