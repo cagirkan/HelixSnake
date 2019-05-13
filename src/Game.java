@@ -51,16 +51,16 @@ public class Game {
       
       while(true) {
          if(keypr==1) {    // if keyboard button pressed
-            if(rkey==KeyEvent.VK_LEFT) {
+            if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
             	rt.setDirection(-1); 
             }
-            if(rkey==KeyEvent.VK_RIGHT) {
+            if(rkey==KeyEvent.VK_RIGHT && rt.getDirection() != -1) {
             	rt.setDirection(1);
             }
-            if(rkey==KeyEvent.VK_UP) {
+            if(rkey==KeyEvent.VK_UP && rt.getDirection() != -2) {
             	rt.setDirection(2);
             }
-            if(rkey==KeyEvent.VK_DOWN) {
+            if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
             	rt.setDirection(-2);
             }
             
