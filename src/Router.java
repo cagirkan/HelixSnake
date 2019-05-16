@@ -36,20 +36,19 @@ public class Router {
         if (!gameOver) {
             if (direction != DIRECTION_NONE) {
                 Cell nextCell = getNextCell(snake.head);
-
                 if (snake.checkCrash(nextCell)) {
                     setDirection(DIRECTION_NONE);
                     gameOver = true;
                 } else {
-                    snake.move(nextCell);
-                    nextCell = getNextCell(snake.head);
                     if (nextCell.type == Cell.CELL_TYPE_FOOD_A ||
                     	nextCell.type == Cell.CELL_TYPE_FOOD_C ||
                     	nextCell.type == Cell.CELL_TYPE_FOOD_T ||
                     	nextCell.type == Cell.CELL_TYPE_FOOD_G ) {
-                        score.setScore(snake.grow(nextCell,score));
+                    	score.setScore(snake.move(nextCell,true,score)); 
                         board.generateFood();
                     }
+                    else
+                    	snake.move(nextCell,false,score);
                 }
             }
         }

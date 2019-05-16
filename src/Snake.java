@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 
+import com.sun.xml.internal.ws.api.pipe.NextAction;
+
 public class Snake {
 
 	SingleLinkedList snakePartList = new SingleLinkedList();
@@ -23,32 +25,35 @@ public class Snake {
         board.cells[row][col-2] = cell2;
     }
 
-    public int grow(Cell nextCell, Score s) {
-    	Cell next = nextCell;
-    	if(next.type == Cell.CELL_TYPE_FOOD_A)
-    		next.changeType(Cell.CELL_TYPE_SNAKE_NODE_A);
-    	else if(next.type == Cell.CELL_TYPE_FOOD_G)
-    		next.changeType(Cell.CELL_TYPE_SNAKE_NODE_G);
-    	else if(next.type == Cell.CELL_TYPE_FOOD_C)
-    		next.changeType(Cell.CELL_TYPE_SNAKE_NODE_C);
-    	else if(next.type == Cell.CELL_TYPE_FOOD_T)
-    		next.changeType(Cell.CELL_TYPE_SNAKE_NODE_T);
-        snakePartList.insertAtStart(next);
-        return s.getScore()+5;
-    }
+    public int move(Cell nextCell, boolean food, Score s) {
+    	if(food) {
+    		if (nextCell.type == Cell.CELL_TYPE_FOOD_A) 
+				nextCell.changeType(Cell.CELL_TYPE_SNAKE_NODE_A);
+    		else if (nextCell.type == Cell.CELL_TYPE_FOOD_G) 
+				nextCell.changeType(Cell.CELL_TYPE_SNAKE_NODE_G);
+    		else if (nextCell.type == Cell.CELL_TYPE_FOOD_C) 
+				nextCell.changeType(Cell.CELL_TYPE_SNAKE_NODE_C);
+    		else if (nextCell.type == Cell.CELL_TYPE_FOOD_T) 
+				nextCell.changeType(Cell.CELL_TYPE_SNAKE_NODE_T);
+    		
+    		head = nextCell;
+    		snakePartList.insertAtStart(head);
+    		return s.getScore()+5;
 
-    public void move(Cell nextCell) {
-    	int temp = snakePartList.searchAt(snakePartList.size()).type;
-    	snakePartList.searchAt(snakePartList.size()).changeType(Cell.CELL_TYPE_EMPTY);
-    	snakePartList.deleteAt(snakePartList.size()-1);
-    	
-        head = nextCell;
-        head.changeType(snakePartList.head.data.type);
-        
-        snakePartList.insertAtStart(head);
-        snakePartList.shift(snakePartList, temp);
-        
-        
+    	}
+    	else {
+	    	int temp = snakePartList.searchAt(snakePartList.size()).type;
+	    	snakePartList.searchAt(snakePartList.size()).changeType(Cell.CELL_TYPE_EMPTY);
+	    	snakePartList.deleteAt(snakePartList.size()-1);
+	    	
+	        head = nextCell;
+	        head.changeType(snakePartList.head.data.type);
+	        
+	        snakePartList.insertAtStart(head);
+	        snakePartList.shift(snakePartList, temp);
+    	}
+    	return s.getScore();
+
     }
 
      public boolean checkCrash(Cell nextCell) {
