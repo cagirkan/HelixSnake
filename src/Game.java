@@ -3,11 +3,13 @@ import enigma.event.TextMouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.util.Scanner;
 
 
 
 public class Game {
-   public enigma.console.Console cn = Enigma.getConsole("Helix Snake");
+   public enigma.console.Console cn = Enigma.getConsole("Helix Snake",110,40);
+   public Scanner sc = new Scanner(System.in);
    public KeyListener klis; 
    public HighScore hs = new HighScore();
    public Score score = new Score();
@@ -46,10 +48,8 @@ public class Game {
       board.generateFood();
       board.generateFood();
       board.generateFood();
-      
-      rt.print();
       rt.setDirection(1);
-      
+      System.out.println("--------------------------Helix Snake-----------------------");
       while(true) {
          if(keypr==1) {    // if keyboard button pressed
             if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
@@ -64,12 +64,15 @@ public class Game {
             if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
             	rt.setDirection(-2);
             }
-            if(rkey==KeyEvent.VK_SPACE)
+            if(rkey==KeyEvent.VK_SPACE) {
             	pause(rt);
+            }
             
             keypr=0;    // last action  
          }
+         
          rt.update();
+         cn.getTextWindow().setCursorPosition(0, 2);
          rt.print();
          Thread.sleep(300);
          time += 300;
@@ -90,17 +93,15 @@ public class Game {
    }
    
    public void pause(Router rt) {
-	  int direction = rt.getDirection();
-	  rt.setDirection(0);
-	  rkey = 0;
-	  while(true) {
-		  if(keypr == 0) {
-			  if(rkey==KeyEvent.VK_SPACE) {
-				  rt.setDirection(direction);
-				  break;
-			  }
-			  keypr = 1;
+	  System.out.println("Game paused. Press r and Enter for resume.");
+	  String s = sc.nextLine();
+	  while (true) {
+		  if(s.equals("r")) {
+			  cn.getTextWindow().setCursorPosition(0, 27);
+			  System.out.println("                                             \n                        ");
+			  break;
 		  }
+		  s = sc.nextLine();
 	  }
    }
 }
