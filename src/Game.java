@@ -41,6 +41,7 @@ public class Game {
          public void keyReleased(KeyEvent e) {}
       };
       
+      
       cn.getTextWindow().addKeyListener(klis);
       board.generateFood();
       board.generateFood();
@@ -63,10 +64,11 @@ public class Game {
             if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
             	rt.setDirection(-2);
             }
+            if(rkey==KeyEvent.VK_SPACE)
+            	pause(rt);
             
             keypr=0;    // last action  
          }
-         //snake.move(nextCell);
          rt.update();
          rt.print();
          Thread.sleep(300);
@@ -85,7 +87,20 @@ public class Game {
       }
       highscore = hs.readfile();
       highscore.display1();
-     
-      
+   }
+   
+   public void pause(Router rt) {
+	  int direction = rt.getDirection();
+	  rt.setDirection(0);
+	  rkey = 0;
+	  while(true) {
+		  if(keypr == 0) {
+			  if(rkey==KeyEvent.VK_SPACE) {
+				  rt.setDirection(direction);
+				  break;
+			  }
+			  keypr = 1;
+		  }
+	  }
    }
 }
