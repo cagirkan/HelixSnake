@@ -1,34 +1,25 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class HighScore {
 	
-	public DoubleLinkedList readfile() {
-		int score=0, ct = 0;
+	public void readfile() throws Exception {
+		int score=0;
 		String name;
-		DoubleLinkedList dll = new DoubleLinkedList();
-	BufferedReader reader;
-	try {
-		reader = new BufferedReader(new FileReader("C:\\score.txt"));
-		String line = reader.readLine();
-		while (line != null) {
-			System.out.println(line);
-			String []arrline = line.split(";");
-			//if(ct == 0)
-				//score = Integer.parseInt(arrline[0].substring(2));
-			//else
-			score = Integer.parseInt(arrline[0]);
-			name = arrline[1];
-			Score data = new Score(score,name);
-			dll.Add(data);
-			line = reader.readLine();
-			ct++;
+
+		File file = new File("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt"); 
+		  
+		BufferedReader br = new BufferedReader(new FileReader(file)); 
+		  
+		String st; 
+		while ((st = br.readLine()) != null) { 
+		  System.out.println(st); 
+		  String stArr[] = st.split(";");
+		  name = stArr[0];
+		  score = Integer.parseInt(stArr[1]);
+		  st = br.readLine(); 
 		}
-		reader.close();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	return dll;
+		br.close();
 	}
 }

@@ -51,6 +51,8 @@ public class Game {
       rt.setDirection(1);
       System.out.println("--------------------------Helix Snake-----------------------");
       while(true) {
+    	  cn.getTextWindow().setCursorPosition(0, 2);
+    	 System.out.println("                   Score: " + score.getScore() + " Level: " + level + " Time: " + time/1000);
          if(keypr==1) {    // if keyboard button pressed
             if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
             	rt.setDirection(-1); 
@@ -72,13 +74,12 @@ public class Game {
          }
          
          rt.update();
-         cn.getTextWindow().setCursorPosition(0, 2);
+         cn.getTextWindow().setCursorPosition(0, 3);
          rt.print();
-         Thread.sleep(300);
-         time += 300;
-         if (time >= 5000) {
+         Thread.sleep(500);
+         time += 500;
+         if (time%5000 == 0) {
         	 board.generateWall();
-        	 time = 0;
         	 level++;
          }
          if(rt.gameOver) {
@@ -88,16 +89,17 @@ public class Game {
         	 break;
          }
       }
-      highscore = hs.readfile();
-      highscore.display1();
+      cn.getTextWindow().setCursorPosition(0, 35);
+      hs.readfile();
    }
    
    public void pause(Router rt) {
+	  cn.getTextWindow().setCursorPosition(0, 28);
 	  System.out.println("Game paused. Press r and Enter for resume.");
 	  String s = sc.nextLine();
 	  while (true) {
 		  if(s.equals("r")) {
-			  cn.getTextWindow().setCursorPosition(0, 27);
+			  cn.getTextWindow().setCursorPosition(0, 28);
 			  System.out.println("                                             \n                        ");
 			  break;
 		  }
