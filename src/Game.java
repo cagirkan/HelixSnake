@@ -3,11 +3,13 @@ import enigma.event.TextMouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.util.Scanner;
 
 
 
 public class Game {
-   public enigma.console.Console cn = Enigma.getConsole("Helix Snake");
+   public enigma.console.Console cn = Enigma.getConsole("Helix Snake",110,40);
+   public Scanner sc = new Scanner(System.in);
    public KeyListener klis; 
    public HighScore hs = new HighScore();
    public Score score = new Score();
@@ -46,11 +48,11 @@ public class Game {
       board.generateFood();
       board.generateFood();
       board.generateFood();
-      
-      rt.print();
       rt.setDirection(1);
-      
+      System.out.println("--------------------------Helix Snake-----------------------");
       while(true) {
+    	  cn.getTextWindow().setCursorPosition(0, 2);
+    	 System.out.println("                   Score: " + score.getScore() + " Level: " + level + " Time: " + time/1000);
          if(keypr==1) {    // if keyboard button pressed
             if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
             	rt.setDirection(-1); 
@@ -64,18 +66,20 @@ public class Game {
             if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
             	rt.setDirection(-2);
             }
-            if(rkey==KeyEvent.VK_SPACE)
+            if(rkey==KeyEvent.VK_SPACE) {
             	pause(rt);
+            }
             
             keypr=0;    // last action  
          }
+         
          rt.update();
+         cn.getTextWindow().setCursorPosition(0, 3);
          rt.print();
-         Thread.sleep(300);
-         time += 300;
-         if (time >= 5000) {
+         Thread.sleep(500);
+         time += 500;
+         if (time%5000 == 0) {
         	 board.generateWall();
-        	 time = 0;
         	 level++;
          }
          if(rt.gameOver) {
@@ -85,22 +89,21 @@ public class Game {
         	 break;
          }
       }
-      highscore = hs.readfile();
-      highscore.display1();
+      cn.getTextWindow().setCursorPosition(0, 35);
+      hs.readfile();
    }
    
    public void pause(Router rt) {
-	  int direction = rt.getDirection();
-	  rt.setDirection(0);
-	  rkey = 0;
-	  while(true) {
-		  if(keypr == 0) {
-			  if(rkey==KeyEvent.VK_SPACE) {
-				  rt.setDirection(direction);
-				  break;
-			  }
-			  keypr = 1;
+	  cn.getTextWindow().setCursorPosition(0, 28);
+	  System.out.println("Game paused. Press r and Enter for resume.");
+	  String s = sc.nextLine();
+	  while (true) {
+		  if(s.equals("r")) {
+			  cn.getTextWindow().setCursorPosition(0, 28);
+			  System.out.println("                                             \n                        ");
+			  break;
 		  }
+		  s = sc.nextLine();
 	  }
    }
 }
