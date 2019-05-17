@@ -97,14 +97,27 @@ public class Game {
 				level++;
 			}
 			if(rt.gameOver) {
-				System.out.println("GAME OVER");
-				System.out.println("Score= " + score.getScore());
-				System.out.println("Level= " + level);
+				cn.getTextWindow().setCursorPosition(0, 12);
+				System.out.println("#   _____                         ____                   _ \r\n" + 
+						"#  / ____|                       / __ \\                 | |\r\n" + 
+						"# | |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __  | |\r\n" + 
+						"# | | |_ |/ _` | '_ ` _ \\ / _ \\ | |  | \\ \\ / / _ \\ '__| | |\r\n" + 
+						"# | |__| | (_| | | | | | |  __/ | |__| |\\ V /  __/ |    |_|\r\n" + 
+						"#  \\_____|\\__,_|_| |_| |_|\\___|  \\____/  \\_/ \\___|_|    (_)");
+				printLine(20, 20, 22, 'h');
+				printLine(22, 20, 22, 'h');
+				cn.getTextWindow().setCursorPosition(21, 21);
+				System.out.print("Enter Name: ");
+				score.setName(sc.nextLine());
+				cn.getTextWindow().setCursorPosition(0, 18);
+				
+				System.out.println();
 				break;
 			}
 		}
 		
 		cn.getTextWindow().setCursorPosition(0, 35);
+		highscore.Add(score);
 		highscore.display1();
 	}
 
