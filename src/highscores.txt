@@ -2,11 +2,3 @@ Mehmedcan;50
 Ýbrahim;140
 Zekiye;30
 Mehmedcan;50
-Ýbrahim;140
-Zekiye;30
-Mehmedcan;50
-Ýbrahim;140
-Zekiye;30
-Mehmedcan;50
-Ýbrahim;140
-Zekiye;30

@@ -6,39 +6,43 @@ public class DoubleLinkedList {
 		head = null;
 		tail = null;
 	}
- 
+
 	public void Add(Score data) {
 		Node2 newnode;
-		Node2 temp=head;
 		newnode = new Node2(data); 
 		if (head == null) {  //list is empty
 			head = newnode;
 			tail = newnode;	     
 		}
-		else {
-			while (temp != null)
-			{
-				if(((Integer)newnode.getData().getScore()>(Integer)head.getData().getScore())) {//temp==head
-					head.setPrev(newnode);//temp
-					newnode.setNext(head);//temp
-					head=newnode;
-				}
-				else if(((Integer)newnode.getData().getScore()<(Integer)tail.getData().getScore())) {//temp=tail
-					tail.setNext(newnode);//temp
-					newnode.setPrev(tail);//temp
-					tail=newnode;
-				}
-				else{
-					temp.setNext(newnode);
-					newnode.setPrev(temp);
-					newnode.setNext(temp.getNext());
-					temp.getNext().setPrev(newnode);
+		else {			
+			if(((Integer)newnode.getData().getScore()>=(Integer)head.getData().getScore())) {//temp==head
+				head.setPrev(newnode);//temp
+				newnode.setNext(head);//temp
+				head=newnode;
+			}
+			else if(((Integer)newnode.getData().getScore()<=(Integer)tail.getData().getScore())) {//temp=tail
+				tail.setNext(newnode);//temp
+				newnode.setPrev(tail);//temp
+				tail=newnode;
+			}
+			else{
+				Node2 temp=head;
+				while (temp != null)
+				{
+					if((Integer)temp.getData().getScore()>(Integer)newnode.getData().getScore() &&
+							(Integer)newnode.getData().getScore()>(Integer)temp.getNext().getData().getScore()) {
+						temp.getNext().setPrev(newnode);
+						newnode.setNext(temp.getNext());
+						temp.setNext(newnode);
+						newnode.setPrev(temp);
+						break;
+					}
 					temp = temp.getNext();
 				}
 			}
 		}
 	}
-	
+
 	public int size()
 	{
 		int count = 0;
@@ -69,7 +73,7 @@ public class DoubleLinkedList {
 			System.out.println();
 		}
 	}	
-	
+
 	public void display2()//at the end
 	{
 		if (head == null)    
