@@ -52,6 +52,7 @@ public class Snake {
 	        snakePartList.insertAtStart(head);
 	        snakePartList.shift(snakePartList, temp);
     	}
+    	
     	return s.getScore();
 
     }
@@ -61,7 +62,7 @@ public class Snake {
         	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_G ||
         	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_T ||
         	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_C ||
-        	nextCell.type == Cell.CELL_TYPE_SNAKE_WALL) return true;
+        	nextCell.type == Cell.CELL_TYPE_SNAKE_INNER_WALL) return true;
         return false;
     } 
 }

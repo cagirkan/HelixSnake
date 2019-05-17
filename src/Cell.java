@@ -5,7 +5,7 @@ public class Cell {
 	 final static int CELL_TYPE_EMPTY = 0, 
 			 			CELL_TYPE_FOOD_A = 11, CELL_TYPE_FOOD_G = 12, CELL_TYPE_FOOD_T = 13, CELL_TYPE_FOOD_C = 14,
 			 			CELL_TYPE_SNAKE_NODE_A = 21, CELL_TYPE_SNAKE_NODE_G = 22, CELL_TYPE_SNAKE_NODE_T = 23, CELL_TYPE_SNAKE_NODE_C = 24, 
-			 			CELL_TYPE_SNAKE_WALL = 30;
+			 			CELL_TYPE_SNAKE_WALL = 30 , CELL_TYPE_SNAKE_INNER_WALL = 31;
 	    int row, col;
 	    char data;
 	    int type;

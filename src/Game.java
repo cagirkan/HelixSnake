@@ -1,5 +1,8 @@
+import enigma.console.TextAttributes;
 import enigma.core.Enigma;
 import enigma.event.TextMouseListener;
+
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -14,7 +17,7 @@ public class Game {
 	public HighScore hs = new HighScore();
 	public Score score = new Score();
 	DoubleLinkedList highscore;
-
+	public TextAttributes ta = new TextAttributes(Color.red, Color.black);
 
 	public Board board = new Board(25,60);
 	public Cell initPos = new Cell();
@@ -29,7 +32,9 @@ public class Game {
 	// ----------------------------------------------------
 
 	int time = 0, level = 0, moveSpeed = 100;
-	Game() throws Exception {   // --- Contructor
+	public Game() throws Exception {   // --- Contructor
+		cn.setTextAttributes(ta);
+		
 
 		// ------ Standard code for mouse and keyboard ------ Do not change
 		klis=new KeyListener() {
@@ -72,7 +77,7 @@ public class Game {
 
 				keypr=0;    // last action  
 			}
-			
+
 			//Score Field
 			printLine(62, 3, 25, 'v');
 			printLine(87, 3, 25, 'v');
@@ -81,10 +86,10 @@ public class Game {
 			printLine(4, 63, 10, 'h');
 
 			cn.getTextWindow().setCursorPosition(64, 28);
-			
+
 			rt.update();
 			cn.getTextWindow().setCursorPosition(0, 3);
-			rt.print();
+			rt.print(cn);
 			Thread.sleep(moveSpeed);
 			time += moveSpeed;
 			if (time%5000 == 0) {
@@ -98,6 +103,7 @@ public class Game {
 				break;
 			}
 		}
+		
 		cn.getTextWindow().setCursorPosition(0, 35);
 		highscore.display1();
 	}
@@ -119,16 +125,21 @@ public class Game {
 	}
 
 	public void pause(Router rt) {
+		int dir = rt.getDirection();
 		cn.getTextWindow().setCursorPosition(0, 28);
-		System.out.println("Game paused. Press r and Enter for resume.");
-		String s = sc.nextLine();
+		System.out.println("Game paused. Press space for continue.");
+		rkey = 0;
 		while (true) {
-			if(s.equals("r")) {
-				cn.getTextWindow().setCursorPosition(0, 28);
-				System.out.println("                                             \n                        ");
-				break;
+			rt.setDirection(0);
+			cn.getTextWindow().setCursorPosition(0, 28);
+			if(keypr==1) {
+				if (rkey == KeyEvent.VK_SPACE) 
+					break;
+				keypr=0;
 			}
-			s = sc.nextLine();
 		}
+		System.out.println("                                           \n                        ");
+		rt.setDirection(dir);
+
 	}
 }
