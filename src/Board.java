@@ -39,7 +39,7 @@ public class Board {
     		row = (int) (Math.random() * (ROW_COUNT-1))+1;
             col = (int) (Math.random() * (COL_COUNT-1))+1;
             if(cells[row][col].type == 0) {
-            	cells[row][col].changeType(30);
+            	cells[row][col].changeType(Cell.CELL_TYPE_SNAKE_INNER_WALL);
             	break;
             }
 		}

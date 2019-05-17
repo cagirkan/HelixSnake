@@ -158,7 +158,7 @@ public class SingleLinkedList
 		}
 	}
 	
-	public int searchSnake (int row, int col)
+	public int searchSnake (int row, int col, Board board)
 	{
 		Node node = head;
 		while (node != null)
@@ -172,7 +172,7 @@ public class SingleLinkedList
 				node = node.next;
 			}
 		}
-		return -1;
+		return board.cells[row][col].type;
 	}
 	
 	public void shift (SingleLinkedList sll, int type)
