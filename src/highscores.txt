@@ -1,4 +1,10 @@
-Mehmedcan;50
-Ýbrahim;140
-Zekiye;30
-Mehmedcan;50
+Salman;10000
+Feridun;8000
+Tugce;4000
+Simge;2000
+Serkan;1200
+Boran;900
+Berat;500
+Denemee;302
+Deniz;250
+Zekiye için;154

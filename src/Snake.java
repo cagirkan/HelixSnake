@@ -4,9 +4,10 @@ import com.sun.xml.internal.ws.api.pipe.NextAction;
 
 public class Snake {
 
-	SingleLinkedList snakePartList = new SingleLinkedList();
+	SnakeList snakePartList = new SnakeList();
     Cell head;
     Board board;
+    private int size;
 
     public Snake(Cell initPos, Board board) {
     	int row = initPos.row;
@@ -23,6 +24,8 @@ public class Snake {
         board.cells[row][col] = head;
         board.cells[row][col-1] = cell;
         board.cells[row][col-2] = cell2;
+        
+        size = 3;
     }
 
     public int move(Cell nextCell, boolean food, Score s) {
@@ -38,6 +41,7 @@ public class Snake {
     		
     		head = nextCell;
     		snakePartList.insertAtStart(head);
+    		size++;
     		return s.getScore()+5;
 
     	}
@@ -64,5 +68,27 @@ public class Snake {
         	nextCell.type == Cell.CELL_TYPE_SNAKE_NODE_C ||
         	nextCell.type == Cell.CELL_TYPE_SNAKE_INNER_WALL) return true;
         return false;
-    } 
+    }
+
+	public String getCodon(int index) {
+		String codon, reverse = "", s;
+		codon = snakePartList.getSnakeToString();
+		 for(int i = codon.length() - 1; i >= 0; i--)
+	        {
+	            reverse = reverse + codon.charAt(i);
+	        }
+		 s = reverse.substring(index,index+3);
+		 return s;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	} 
+	
+	
+     
 }
