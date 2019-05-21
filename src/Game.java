@@ -14,17 +14,18 @@ public class Game {
 	public enigma.console.Console cn = Enigma.getConsole("Helix Snake",110,40);
 	public Scanner sc = new Scanner(System.in);
 	public KeyListener klis; 
-	public HighScore hs = new HighScore();
 	public Score score = new Score();
-	DoubleLinkedList highscore;
+	HighScore highscore = new HighScore("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
 	public TextAttributes ta = new TextAttributes(Color.red, Color.black);
 
 	public Board board = new Board(25,60);
 	public Cell initPos = new Cell();
 	public Snake snake = new Snake(initPos, board);
 	public Router rt = new Router(snake, board, score);
+	public Aminoacid aminoacids = new Aminoacid("C:\\Users\\hicag\\git\\HelixSnake\\src\\aminoacids.txt");
+	public String codon;
+	public int codonScore = 0, scorePosition = 5;
 	public Cell nextCell;
-
 
 	// ------ Standard variables for mouse and keyboard ------
 	public int keypr;   // key pressed?
@@ -47,8 +48,6 @@ public class Game {
 			}
 			public void keyReleased(KeyEvent e) {}
 		};
-
-		highscore = hs.readfile();
 		cn.getTextWindow().addKeyListener(klis);
 		board.generateFood();
 		board.generateFood();
@@ -86,7 +85,18 @@ public class Game {
 			printLine(4, 63, 10, 'h');
 
 			cn.getTextWindow().setCursorPosition(64, 28);
-
+			if (snake.getSize() == 3) {
+				codon = snake.getCodon(snake.snakePartList.size()-3);
+				codonScore =  aminoacids.searchCodonScore(codon);
+				score.setScore(score.getScore() + codonScore);
+				snake.setSize(0);
+				if (codonScore != 0) {
+					cn.getTextWindow().setCursorPosition(63, scorePosition);
+					System.out.println(codon + "     " + codonScore);
+					scorePosition ++;
+				}
+			}
+			
 			rt.update();
 			cn.getTextWindow().setCursorPosition(0, 3);
 			rt.print(cn);
@@ -117,8 +127,12 @@ public class Game {
 		}
 		
 		cn.getTextWindow().setCursorPosition(0, 35);
-		highscore.Add(score);
-		highscore.display1();
+		if(score.getScore() >= highscore.getLast().getScore()) {
+			highscore.Add(score);
+			highscore.deleteLast();
+		}
+		highscore.displayTopTen();
+		highscore.save("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
 	}
 
 	//Gets position and start and length parameters as integer and direction as c(h for horizontal, v for vertical)

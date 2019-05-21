@@ -1,12 +1,12 @@
 import java.util.Random;
 
-public class SingleLinkedList
+public class SnakeList
 {
-	Node head;
+	SnakeNode head;
 	
 	public void insert (Cell data)
 	{
-		Node node = new Node();
+		SnakeNode node = new SnakeNode();
 		node.data = data;
 		node.next = null;
 		
@@ -16,7 +16,7 @@ public class SingleLinkedList
 		}
 		else
 		{
-			Node n = head;
+			SnakeNode n = head;
 			while(n.next != null)
 			{
 				n = n.next;
@@ -27,7 +27,7 @@ public class SingleLinkedList
 	
 	public void insertAtStart(Cell data)
 	{
-		Node node = new Node();
+		SnakeNode node = new SnakeNode();
 		node.data = data;
 		node.next = null;
 		node.next = head;
@@ -36,11 +36,11 @@ public class SingleLinkedList
 	
 	public void insertAt(int index, Cell data)
 	{
-		Node node = new Node();
+		SnakeNode node = new SnakeNode();
 		node.data = data;
 		node.next = null;
 		
-		Node n = head;
+		SnakeNode n = head;
 		for (int i = 0; i < index-1; i++)
 		{
 			n = n.next;
@@ -52,7 +52,7 @@ public class SingleLinkedList
 
 	public void show()
 	{
-		Node node = head;
+		SnakeNode node = head;
 		
 		while(node.next != null)
 		{
@@ -65,7 +65,7 @@ public class SingleLinkedList
 	public int search (Cell input)
 	{
 		int count = 0;
-		Node node = head;
+		SnakeNode node = head;
 		while (node != null)
 		{
 			if (node.data.equals(input) == true)
@@ -84,7 +84,7 @@ public class SingleLinkedList
 	
 	public Cell searchAt (int index)
 	{
-		Node n = head;
+		SnakeNode n = head;
 		for (int i = 0; i < index-1; i++)
 		{
 			n = n.next;
@@ -95,7 +95,7 @@ public class SingleLinkedList
 	public int size ()
 	{
 		int size = 0;
-		Node node = head;
+		SnakeNode node = head;
 		
 		while(node != null)
 		{
@@ -119,8 +119,8 @@ public class SingleLinkedList
 		}
 		else 
 		{
-			Node previous = head;
-			Node temp = previous.next;
+			SnakeNode previous = head;
+			SnakeNode temp = previous.next;
 		
 		while (temp != null)
 		{
@@ -145,8 +145,8 @@ public class SingleLinkedList
 		}
 		else
 		{
-			Node n = head;
-			Node n1 = null;
+			SnakeNode n = head;
+			SnakeNode n1 = null;
 			for(int i=0;i<index-1;i++)
 			{
 				n = n.next;
@@ -160,7 +160,7 @@ public class SingleLinkedList
 	
 	public int searchSnake (int row, int col, Board board)
 	{
-		Node node = head;
+		SnakeNode node = head;
 		while (node != null)
 		{
 			if (node.data.col == col && node.data.row == row)
@@ -175,9 +175,9 @@ public class SingleLinkedList
 		return board.cells[row][col].type;
 	}
 	
-	public void shift (SingleLinkedList sll, int type)
+	public void shift (SnakeList sll, int type)
 	{
-		Node node = head.next;
+		SnakeNode node = head.next;
 		while (node != null)
 		{
 			if(node.next != null) {
@@ -191,4 +191,13 @@ public class SingleLinkedList
 	
 	}
 	
+	public String getSnakeToString() {
+		String s = "";
+		SnakeNode node = head;
+		while (node != null) {
+			s += node.data.data;
+			node = node.next;
+		}
+		return s;
+	}
 }

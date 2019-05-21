@@ -1,10 +1,10 @@
-public class Node2 {
+public class HighscoreNode {
 	   
     private Score data;
-    private Node2 prev; 
-    private Node2 next;
+    private HighscoreNode prev; 
+    private HighscoreNode next;
 
-   public Node2(Score data) {
+   public HighscoreNode(Score data) {
      this.data = data;
      prev = null;
      next = null;
@@ -18,19 +18,19 @@ public class Node2 {
      this.data = data;
    }
 
-   public Node2 getNext() {
+   public HighscoreNode getNext() {
      return next; 
    }
 
-   public void setNext(Node2 next) {
+   public void setNext(HighscoreNode next) {
      this.next = next;
    }
    
-   public Node2 getPrev() {
+   public HighscoreNode getPrev() {
 	 return prev; 
    }
 
-   public void setPrev(Node2 prev) {
+   public void setPrev(HighscoreNode prev) {
      this.prev = prev;
    }
 }
