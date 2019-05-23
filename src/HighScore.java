@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import enigma.console.Console;
+
 public class HighScore {
 	private HighscoreNode head;	
 	private HighscoreNode tail;
@@ -86,19 +88,17 @@ public class HighScore {
 		return count;   
 	}
 
-	public void displayTopTen(){
-		int counter = 0;
+	public void display(Console cn){
+		int counter = 1;
 		if (head == null)    
 			System.out.println("linked list is empty");
 		else {
 			HighscoreNode temp = head;
-			while (temp != null)
-			{
+			while (temp != null){
+				cn.getTextWindow().setCursorPosition(45, 3 + counter);
+				System.out.print(counter + "-) " + temp.getData().getName()+ " " + temp.getData().getScore() + "\n");
 				counter++;
-				System.out.println(temp.getData().getScore() + " " + temp.getData().getName());
 				temp = temp.getNext();
-				if(counter >= 10)
-					break;
 			}
 			System.out.println();
 		}
@@ -113,7 +113,7 @@ public class HighScore {
 			HighscoreNode temp = head;
 			while (temp != null)
 			{
-			    writer.write(temp.getData().getName() + ";" + temp.getData().getScore()+"\n");
+				writer.write(temp.getData().getName() + ";" + temp.getData().getScore()+"\n");
 				temp = temp.getNext();
 			}
 			writer.close();
@@ -130,7 +130,7 @@ public class HighScore {
 		last = temp.getData();
 		return last;
 	}
-	
+
 	public void deleteLast() {
 		HighscoreNode tempHead = head;
 		HighscoreNode tempTail = tail;
