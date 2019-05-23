@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.sun.glass.ui.Menu;
+
 
 
 public class Game {
@@ -15,7 +17,7 @@ public class Game {
 	public Scanner sc = new Scanner(System.in);
 	public KeyListener klis; 
 	public Score score = new Score();
-	HighScore highscore = new HighScore("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
+	public HighScore highscore = new HighScore("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
 	public TextAttributes ta = new TextAttributes(Color.red, Color.black);
 
 	public Board board = new Board(25,60);
@@ -31,11 +33,11 @@ public class Game {
 	public int keypr;   // key pressed?
 	public int rkey;    // key   (for press/release)
 	// ----------------------------------------------------
-
 	int time = 0, level = 0, moveSpeed = 100;
-	public Game() throws Exception {   // --- Contructor
+	public Game(int moveSpeed, int wallLevel, String gameType) throws Exception {   // --- Contructor
+		clearConsole();
 		cn.setTextAttributes(ta);
-		
+
 
 		// ------ Standard code for mouse and keyboard ------ Do not change
 		klis=new KeyListener() {
@@ -53,36 +55,69 @@ public class Game {
 		board.generateFood();
 		board.generateFood();
 		rt.setDirection(1);
-		System.out.println("--------------------------Helix Snake-----------------------");
-		while(true) {
-			cn.getTextWindow().setCursorPosition(0, 2);
-			System.out.println("                      Level: " + level + " Time: " + time/1000);
-			if(keypr==1) {    // if keyboard button pressed
-				if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
-					rt.setDirection(-1); 
-				}
-				if(rkey==KeyEvent.VK_RIGHT && rt.getDirection() != -1) {
-					rt.setDirection(1);
-				}
-				if(rkey==KeyEvent.VK_UP && rt.getDirection() != -2) {
-					rt.setDirection(2);
-				}
-				if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
-					rt.setDirection(-2);
-				}
-				if(rkey==KeyEvent.VK_SPACE) {
-					pause(rt);
-				}
 
-				keypr=0;    // last action  
+		while(true) {
+			cn.getTextWindow().setCursorPosition(0, 0);
+			System.out.println("--------------------------Helix Snake-----------------------");
+
+			System.out.println("                                                            \n                      Level: " + level + " Time: " + time/1000);
+			if(gameType.equals("global")) {
+				if(keypr==1) {    // if keyboard button pressed
+					if(rkey==KeyEvent.VK_LEFT && rt.getDirection() != 1) {
+						rt.setDirection(-1); 
+					}
+					if(rkey==KeyEvent.VK_RIGHT && rt.getDirection() != -1) {
+						rt.setDirection(1);
+					}
+					if(rkey==KeyEvent.VK_UP && rt.getDirection() != -2) {
+						rt.setDirection(2);
+					}
+					if(rkey==KeyEvent.VK_DOWN && rt.getDirection() != 2) {
+						rt.setDirection(-2);
+					}
+					if(rkey==KeyEvent.VK_SPACE) {
+						pause(rt);
+					}
+
+					keypr=0;    // last action  
+				}
+			}
+			else {
+				if(keypr==1) {    // if keyboard button pressed
+					if(rkey==KeyEvent.VK_LEFT) {
+						if (rt.getDirection() == 1) 
+							rt.setDirection(2);
+						else if(rt.getDirection() == -1)
+							rt.setDirection(-2);
+						else if(rt.getDirection() == 2)
+							rt.setDirection(-1);
+						else if(rt.getDirection() == -2)
+							rt.setDirection(1);
+					}
+					if(rkey==KeyEvent.VK_RIGHT) {
+						if (rt.getDirection() == 1) 
+							rt.setDirection(-2);
+						else if(rt.getDirection() == -1)
+							rt.setDirection(2);
+						else if(rt.getDirection() == 2)
+							rt.setDirection(1);
+						else if(rt.getDirection() == -2)
+							rt.setDirection(-1);
+					}
+					if(rkey==KeyEvent.VK_SPACE) {
+						pause(rt);
+					}
+
+					keypr=0;    // last action  
+				}
 			}
 
 			//Score Field
 			printLine(62, 3, 25, 'v');
-			printLine(87, 3, 25, 'v');
+			printLine(81, 3, 25, 'v');
 			cn.getTextWindow().setCursorPosition(63, 3);
-			System.out.println("Score: " + score.getScore());
-			printLine(4, 63, 10, 'h');
+			System.out.println("    Score: " + score.getScore());
+			printLine(4, 64, 16, 'h');
 
 			cn.getTextWindow().setCursorPosition(64, 28);
 			if (snake.getSize() == 3) {
@@ -92,17 +127,17 @@ public class Game {
 				snake.setSize(0);
 				if (codonScore != 0) {
 					cn.getTextWindow().setCursorPosition(63, scorePosition);
-					System.out.println(codon + "     " + codonScore);
+					System.out.println("    "+codon + "    " + codonScore);
 					scorePosition ++;
 				}
 			}
-			
+
 			rt.update();
 			cn.getTextWindow().setCursorPosition(0, 3);
 			rt.print(cn);
 			Thread.sleep(moveSpeed);
 			time += moveSpeed;
-			if (time%5000 == 0) {
+			if (time%wallLevel == 0) {
 				board.generateWall();
 				level++;
 			}
@@ -114,25 +149,44 @@ public class Game {
 						"# | | |_ |/ _` | '_ ` _ \\ / _ \\ | |  | \\ \\ / / _ \\ '__| | |\r\n" + 
 						"# | |__| | (_| | | | | | |  __/ | |__| |\\ V /  __/ |    |_|\r\n" + 
 						"#  \\_____|\\__,_|_| |_| |_|\\___|  \\____/  \\_/ \\___|_|    (_)");
-				printLine(20, 20, 22, 'h');
-				printLine(22, 20, 22, 'h');
-				cn.getTextWindow().setCursorPosition(21, 21);
-				System.out.print("Enter Name: ");
-				score.setName(sc.nextLine());
+
 				cn.getTextWindow().setCursorPosition(0, 18);
-				
 				System.out.println();
 				break;
 			}
 		}
-		
+
 		cn.getTextWindow().setCursorPosition(0, 35);
 		if(score.getScore() >= highscore.getLast().getScore()) {
+			printLine(20, 20, 22, 'h');
+			printLine(22, 20, 22, 'h');
+			cn.getTextWindow().setCursorPosition(21, 21);
+			System.out.print("CONGRATULATIONS!");
+			Thread.sleep(2000);
+			cn.getTextWindow().setCursorPosition(21, 21);
+			System.out.print("New Highscore!     ");
+			Thread.sleep(2000);
+			cn.getTextWindow().setCursorPosition(21, 21);
+			System.out.print("Enter Your Name: ");
+			score.setName(sc.nextLine());
 			highscore.Add(score);
 			highscore.deleteLast();
+			highscore.save("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
 		}
-		highscore.displayTopTen();
-		highscore.save("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
+		else {
+			Thread.sleep(1000);
+			printLine(20, 10, 35, 'h');
+			printLine(22, 10, 35, 'h');
+			cn.getTextWindow().setCursorPosition(15, 21);
+			System.out.print("Better Luck Next Time!..");
+			Thread.sleep(1500);
+			cn.getTextWindow().setCursorPosition(11, 21);
+			System.out.print("You couldn't pass the highscore :( ");
+			Thread.sleep(2000);
+		}
+		clearConsole();
+		//highscore.display();
+		//highscore.save("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
 	}
 
 	//Gets position and start and length parameters as integer and direction as c(h for horizontal, v for vertical)
@@ -168,5 +222,13 @@ public class Game {
 		System.out.println("                                           \n                        ");
 		rt.setDirection(dir);
 
+	}
+
+	public void clearConsole() {
+		cn.getTextWindow().setCursorPosition(0, 0);
+		for (int i = 0; i < 30; i++) {
+			System.out.println("                                                                                    ");
+		}
+		cn.getTextWindow().setCursorPosition(0, 0);
 	}
 }
