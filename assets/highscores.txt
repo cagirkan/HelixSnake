@@ -7,4 +7,4 @@ Serkan;1200
 Boran;900
 :(:(:(;817
 Berat;500
-ibrahim;64
+Murat;99

@@ -1,4 +1,4 @@
-import java.awt.event.KeyEvent;
+
 import java.util.Scanner;
 
 import enigma.core.Enigma;
@@ -39,7 +39,7 @@ public class main {
 				break;
 				
 			case 2 :
-				HighScore hs = new HighScore("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
+				HighScore hs = new HighScore("assets\\highscores.txt");
 				clearConsole();
 				cn.getTextWindow().setCursorPosition(45, 2);
 				System.out.println("----------HIGHSCORES----------\n");
@@ -69,7 +69,7 @@ public class main {
 						clearConsole();
 						cn.getTextWindow().setCursorPosition(45, 2);
 						System.out.print("Enter a speed level between 1 and 10: ");
-						moveSpeed = 200 - sc.nextInt()*25;
+						moveSpeed = 225 - sc.nextInt()*20;
 						cn.getTextWindow().setCursorPosition(45, 3);
 						System.out.println("Speed level will be " + moveSpeed);
 						Thread.sleep(2000);
@@ -78,8 +78,8 @@ public class main {
 					case 2 :
 						clearConsole();
 						cn.getTextWindow().setCursorPosition(45, 2);
-						System.out.print("Enter a level between 1 and 20: ");
-						wallLevel = 21000 - (sc.nextInt())*1000;
+						System.out.print("Enter a level between 1 and 4: ");
+						wallLevel = 21000 - (sc.nextInt())*5000;
 						cn.getTextWindow().setCursorPosition(45, 3);
 						System.out.println("Wall generate level will be " + wallLevel);
 						Thread.sleep(2000);

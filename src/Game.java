@@ -17,14 +17,14 @@ public class Game {
 	public Scanner sc = new Scanner(System.in);
 	public KeyListener klis; 
 	public Score score = new Score();
-	public HighScore highscore = new HighScore("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
+	public HighScore highscore = new HighScore("assets\\highscores.txt");
 	public TextAttributes ta = new TextAttributes(Color.red, Color.black);
 
 	public Board board = new Board(25,60);
 	public Cell initPos = new Cell();
 	public Snake snake = new Snake(initPos, board);
 	public Router rt = new Router(snake, board, score);
-	public Aminoacid aminoacids = new Aminoacid("C:\\Users\\hicag\\git\\HelixSnake\\src\\aminoacids.txt");
+	public Aminoacid aminoacids = new Aminoacid("assets\\aminoacids.txt");
 	public String codon;
 	public int codonScore = 0, scorePosition = 5;
 	public Cell nextCell;
@@ -158,20 +158,20 @@ public class Game {
 
 		cn.getTextWindow().setCursorPosition(0, 35);
 		if(score.getScore() >= highscore.getLast().getScore()) {
-			printLine(20, 20, 22, 'h');
-			printLine(22, 20, 22, 'h');
-			cn.getTextWindow().setCursorPosition(21, 21);
-			System.out.print("CONGRATULATIONS!");
+			printLine(20, 15, 27, 'h');
+			printLine(22, 15, 27, 'h');
+			cn.getTextWindow().setCursorPosition(15, 21);
+			System.out.print("     CONGRATULATIONS!");
 			Thread.sleep(2000);
-			cn.getTextWindow().setCursorPosition(21, 21);
-			System.out.print("New Highscore!     ");
+			cn.getTextWindow().setCursorPosition(15, 21);
+			System.out.print("     New Highscore!     ");
 			Thread.sleep(2000);
-			cn.getTextWindow().setCursorPosition(21, 21);
-			System.out.print("Enter Your Name: ");
+			cn.getTextWindow().setCursorPosition(15, 21);
+			System.out.print("     Enter Your Name: ");
 			score.setName(sc.nextLine());
 			highscore.Add(score);
 			highscore.deleteLast();
-			highscore.save("C:\\Users\\hicag\\git\\HelixSnake\\src\\highscores.txt");
+			highscore.save("assets\\highscores.txt");
 		}
 		else {
 			Thread.sleep(1000);
